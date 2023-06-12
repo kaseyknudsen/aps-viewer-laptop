@@ -34,6 +34,15 @@ export function initViewer(container) {
         );
       };
       //isolateConcrete();
+
+      const isolateCarbonLayup = () => {
+        viewer.search("Carbon Layup", (ids) => {
+          viewer.isolate(ids);
+        });
+      };
+      const carbonLayupButton = document.createElement("button");
+      document.appendChild(carbonLayupButton);
+      carbonLayupButton.addEventListener("click", isolateCarbonLayup);
       viewer.setTheme("light-theme");
       resolve(viewer);
     });
