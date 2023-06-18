@@ -1,5 +1,11 @@
 /// import * as Autodesk from "@types/forge-viewer";
 
+const button1 = document.getElementById("bkrndColorRed");
+const button2 = document.getElementById("bkrndColorGrey");
+const button3 = document.getElementById("reset");
+const button4 = document.getElementById("isolateBracket");
+const colorMenu = document.getElementById("colorMenu");
+
 async function getAccessToken(callback) {
   try {
     const resp = await fetch("/api/auth/token");
@@ -14,45 +20,76 @@ async function getAccessToken(callback) {
   }
 }
 
+//creates new instance of the viewer in specified DOM container
 export function initViewer(container) {
+  //a promise is async and non blocking
   return new Promise(function (resolve, reject) {
     Autodesk.Viewing.Initializer({ getAccessToken }, function () {
       const config = {
         extensions: ["Autodesk.DocumentBrowser"],
       };
       const viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
-
       viewer.start();
-      
-      const isolateConcrete = () => {
-        viewer.addEventListener(
-          Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-          function () {
-            viewer.search("concrete", function (ids) {
-              viewer.isolate(ids);
-            });
-          }
-        );
-      };
-      isolateConcrete();
-
-      
+      viewer.setTheme("light-theme");
+      resolve(viewer);
       const setBackgroundColorRed = () => {
         viewer.setBackgroundColor(0xff0000);
       };
-      setBackgroundColorRed();
-      // const carbonLayupButton = document.createElement("button");
-      // document.appendChild(carbonLayupButton);
-      // carbonLayupButton.addEventListener("click", isolateCarbonLayup);
-      viewer.setTheme("light-theme");
-      resolve(viewer);
+      button1.addEventListener("click", setBackgroundColorRed);
+
+      const setBackgroundColorGrey = () => {
+        viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
+      };
+      button2.addEventListener("click", setBackgroundColorGrey);
+      const resetWindow = () => {
+        // viewer.fitToView();
+        location.reload();
+      };
+      button3.addEventListener("click", resetWindow);
+
+      const isolateBracket = () => {
+        viewer.search("Bracket, Bottom", (ids) => {
+          viewer.isolate(ids);
+        });
+      };
+      // isolateBracket();
+      button4.addEventListener("click", isolateBracket);
+
+      const colorsArray = [
+        {
+          color: "white",
+          colorCode: "#FFFFFF",
+        },
+        {
+          color: "red",
+          colorCode: "0xff0000",
+        },
+        {
+          color: "grey",
+          colorCode: (0, 0, 0, 210, 210, 210),
+        },
+        {
+          color: "blue",
+          colorCode: "0x0000ff",
+        },
+      ];
+      const dropdown = document.querySelector("select[name='colors']");
+      dropdown.innerHTML = colorsArray.map(
+        (backgroundColor, idx) =>
+          `<option value="${backgroundColor.colorCode}">${backgroundColor.color}</option>`
+      );
+      dropdown.onchange = () => {
+        viewer.setBackgroundColor(dropdown.value);
+      };
     });
   });
 }
 
+//loads a specific model into the viewer
 export function loadModel(viewer, urn) {
   return new Promise(function (resolve, reject) {
     function onDocumentLoadSuccess(doc) {
+      //to return data from a promise, you pass it into resolve
       resolve(viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry()));
     }
     function onDocumentLoadFailure(code, message, errors) {
