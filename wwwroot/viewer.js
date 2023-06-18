@@ -79,6 +79,7 @@ export function initViewer(container) {
           `<option value="${backgroundColor.colorCode}">${backgroundColor.color}</option>`
       );
       dropdown.onchange = () => {
+        resetWindow();
         viewer.setBackgroundColor(dropdown.value);
       };
     });

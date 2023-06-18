@@ -2,20 +2,7 @@
   box-sizing: border-box;
 }
 html {
-  width: 70%;
-}
-
-.app {
-  margin: 1em;
-}
-
-.container {
-  position: relative;
-  width: 90%;
-  height: 90%;
-  display: flex;
-  flex-flow: row;
-  justify-content: center;
+  width: 100%;
 }
 
 body {
@@ -24,6 +11,14 @@ body {
   height: 100vh;
   font-family: ArtifaktElement;
 }
+
+/* .container {
+  position: relative;
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-flow: row;
+} */
 
 #header {
   position: relative;
@@ -48,31 +43,31 @@ body {
 
 #models {
   flex: 0 1 auto;
-  min-width: 2em;
+  min-width: em;
 }
 
-.parameters {
+/* .parameters {
   display: flex;
   flex-direction: column;
-  margin: 5em 2em 15em 2em;
-}
+  margin: 5em 2em 10em 2em;
+} */
 
-.item {
+/* .item {
   margin-bottom: 20px;
   border: 1px solid black;
   padding: 2%;
   box-shadow: 10px 5px 5px grey;
-}
-.item:hover {
+} */
+/* .item:hover {
   background-color: darkgray;
   transition: all 2s ease-in-out;
-}
-.viewer {
+} */
+/* .viewer {
   position: absolute;
-  width: 90%;
-}
+  width: 100%;
+} */
 
-#colorMenu {
+/* #colorMenu {
   margin-top: 20px;
   width: 100%;
   padding: 10px;
@@ -80,4 +75,4 @@ body {
   flex-direction: column;
   /* align-items: center; */
   margin-bottom: 10px;
-}
+} */
