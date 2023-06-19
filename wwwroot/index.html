@@ -46,46 +46,63 @@
             >
               <button
                 class="btn btn-outline-secondary"
-                type="button"
+                type="button btn-lg"
                 id="bkrndColorRed"
               >
                 Change Background Color to Red
               </button>
+
+              <div class="col">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="bkrndColorRed"
+                >
+                  Change Background Color to Grey
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="isolateBracket"
+                >
+                  Isolate Bracket
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="reset"
+                >
+                  Reset Window
+                </button>
+              </div>
             </div>
-            <div class="col">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="bkrndColorRed"
-              >
-                Change Background Color to Grey
-              </button>
-            </div>
-            <div class="col">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="isolateBracket"
-              >
-                Isolate Bracket
-              </button>
-            </div>
-            <div class="col">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="reset"
-              >
-                Reset Window
-              </button>
-            </div>
-            <div id="colorMenu">
-              <label for="colorMenu">Select a Background Color</label>
+            <div id="colorMenu" class="dropdown mt-5">
               <select name="colors">
                 <option value="0xff0000">Red</option>
                 <option value="0, 0, 0, 210, 210, 210">Grey</option>
                 <option value="green">Green</option>
               </select>
+            </div>
+            <div class="col-12 border-end">
+              <div class="dropdown mt-5">
+                <button
+                  class="btn btn-outline-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Change Background Color
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Red</a></li>
+                  <li><a class="dropdown-item" href="#">Grey</a></li>
+                  <li><a class="dropdown-item" href="#">White</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
