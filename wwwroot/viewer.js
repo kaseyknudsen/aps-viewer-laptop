@@ -168,43 +168,49 @@ export function initViewer(container) {
         parameters.appendChild(newDropdown);
         return newDropdown;
       };
-      //change color of moleteado
+
+      //function to create options in dropdown menu
+      const createOptions = (optionObject, dropdownMenu) => {
+        optionObject.map((option, idx) => {
+          const newOption = document.createElement("option");
+          newOption.innerHTML = option.text;
+          dropdownMenu.appendChild(newOption);
+        });
+      };
+
+      //addEventListener function
+      const addEventListenerFunction = (dropDownMenu, optionMenu, dbId) => {
+        dropDownMenu.addEventListener("change", () => {
+          const selectedColor = dropDownMenu.value;
+          const colorObject = optionMenu.find((color) => {
+            return selectedColor === color.text;
+          });
+          if (colorObject) {
+            viewer.setThemingColor(dbId, colorObject.color);
+          }
+        });
+      };
+
+      //create menu for Moleteado
       const changeColorOfMoleteado = createDropdownMenu(
         "Change Color of Moleteado"
       );
-      selectOptions.map((option, idx) => {
-        const newOption = document.createElement("option");
-        newOption.innerHTML = option.text;
-        changeColorOfMoleteado.appendChild(newOption);
-      });
-      changeColorOfMoleteado.addEventListener("change", () => {
-        const selectedColor = changeColorOfMoleteado.value;
-        const colorObject = selectOptions.find((color) => {
-          return selectedColor === color.text;
-        });
-        if (colorObject) {
-          viewer.setThemingColor(10, colorObject.color);
-        }
-      });
+
+      //create options for Moleteado
+      createOptions(selectOptions, changeColorOfMoleteado);
+
+      //add eventlistener to moleteado
+      addEventListenerFunction(changeColorOfMoleteado, selectOptions, 10);
 
       //change color of middle part
       const changeColorOfMiddlePart = createDropdownMenu(
         "Change Color Of Middle Part"
       );
-      selectOptions.map((option, idx) => {
-        const newOption = document.createElement("option");
-        newOption.innerHTML = option.text;
-        changeColorOfMiddlePart.appendChild(newOption);
-      });
-      changeColorOfMiddlePart.addEventListener("change", () => {
-        const selectedColor = changeColorOfMiddlePart.value;
-        const colorObject = selectOptions.find(
-          (color) => selectedColor === color.text
-        );
-        if (colorObject) {
-          viewer.setThemingColor(4, colorObject.color);
-        }
-      });
+      //create options for Middle Part
+      createOptions(selectOptions, changeColorOfMiddlePart);
+
+      //add event listener to middle part
+      addEventListenerFunction(changeColorOfMiddlePart, selectOptions, 4);
     });
   });
 }
