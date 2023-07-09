@@ -134,6 +134,7 @@ export function initViewer(container) {
         return createButton;
       });
 
+      //dropdown menu Code
       const selectOptions = [
         {
           text: " ",
