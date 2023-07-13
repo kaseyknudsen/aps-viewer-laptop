@@ -41,6 +41,9 @@ export function initViewer(container) {
         return button;
       };
 
+      //create function that creates the new button in the DOM and adds the text as a parameter
+      //includes a boolean as a parameter for the toggle feature
+      //add a parameter to add the event listener to
       const createToggleColorButton = createNewButton(
         "Change Background Color to Red"
       );
