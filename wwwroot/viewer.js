@@ -59,89 +59,65 @@ export function initViewer(container) {
         viewer.clearSelection([1]);
       };
 
-      // let isBackgroundRed = false;
+      const setGroundShadow = () => {
+        viewer.setGroundShadow(true);
+      };
+      const turnGroundShadowOff = () => {
+        viewer.setGroundShadow(false);
+      };
+
+      const setGroundReflectionOn = () => {
+        viewer.setGroundReflection(true);
+      };
+      const setGroundReflectionOff = () => {
+        viewer.setGroundReflection(false);
+      };
+
+      let booleanValue = false;
       const createUIButtons = (
         buttonText,
-        booleanValue,
         viewerFunction,
-        newButtonText,
-        viewerFunction2
+        viewerFunction2,
+        newButtonText
       ) => {
         const button = createNewButton(buttonText);
         button.addEventListener("click", () => {
           if (!booleanValue) {
             viewerFunction();
-            button.textContent = buttonText;
+            button.textContent = newButtonText;
             booleanValue = true;
           } else {
             viewerFunction2();
-            button.textContent = newButtonText;
+            button.textContent = buttonText;
             booleanValue = false;
           }
         });
       };
       createUIButtons(
         "Change Background Color To Red",
-        false,
         setBackgroundRed,
-
-        "Change Background Color to Grey",
-        setBackgroundGrey
+        setBackgroundGrey,
+        "Change Background Color to Grey"
       );
 
       createUIButtons(
         "Select Body",
-        false,
         viewerSelect,
-        "Clear Selection",
-        viewerClearSelection
+        viewerClearSelection,
+        "Clear Selection"
       );
-
-      // let selected = false;
-      // const createToggleSelectButton = createNewButton("Select Body");
-      // createToggleSelectButton.addEventListener("click", () => {
-      //   if (!selected) {
-      //     viewer.select([1]);
-      //     createToggleSelectButton.textContent = "Clear Selection";
-      //     selected = true;
-      //   } else {
-      //     viewer.clearSelection([1]);
-      //     createToggleSelectButton.textContent = "Select Body";
-      //     selected = false;
-      //   }
-      // });
-
-      //create ground shadow toggle button
-      let shadowOn = false;
-      const createToggleGroundShadow = createNewButton("Turn Ground Shadow On");
-      createToggleGroundShadow.addEventListener("click", () => {
-        if (!shadowOn) {
-          viewer.setGroundShadow(true);
-          createToggleGroundShadow.textContent = "Turn Ground Shadow Off";
-          shadowOn = true;
-        } else {
-          viewer.setGroundShadow(false);
-          createToggleGroundShadow.textContent = "Turn Ground Shadow On";
-          shadowOn = false;
-        }
-      });
-
-      //create ground reflection toggle button
-      let reflectionOn = false;
-      const createToggleReflection = createNewButton(
-        "Turn Ground Reflection On"
+      createUIButtons(
+        "Turn Ground Shadow On",
+        setGroundShadow,
+        turnGroundShadowOff,
+        "Turn Ground Shadow Off"
       );
-      createToggleReflection.addEventListener("click", () => {
-        if (!reflectionOn) {
-          viewer.setGroundReflection(true);
-          createToggleReflection.textContent = "Turn Ground Reflection Off";
-          reflectionOn = true;
-        } else {
-          viewer.setGroundReflection(false);
-          createToggleReflection.textContent = "Turn Ground Reflection On";
-          reflectionOn = false;
-        }
-      });
+      createUIButtons(
+        "Turn Ground Reflection On",
+        setGroundReflectionOn,
+        setGroundReflectionOff,
+        "Turn Ground Reflection Off"
+      );
 
       const buttons = [
         {
