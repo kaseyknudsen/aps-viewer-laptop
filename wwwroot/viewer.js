@@ -44,66 +44,72 @@ export function initViewer(container) {
       //create function that creates the new button in the DOM and adds the text as a parameter
       //includes a boolean as a parameter for the toggle feature
       //add a parameter to add the event listener
+      const setBackgroundRed = () => {
+        viewer.setBackgroundColor(0xff0000);
+      };
 
-      let isBackgroundRed = false;
+      const setBackgroundGrey = () => {
+        viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
+      };
+
+      const viewerSelect = () => {
+        viewer.select([1]);
+      };
+      const viewerClearSelection = () => {
+        viewer.clearSelection([1]);
+      };
+
+      // let isBackgroundRed = false;
       const createUIButtons = (
         buttonText,
+        booleanValue,
         viewerFunction,
-        value1,
         newButtonText,
-        value2
+        viewerFunction2
       ) => {
         const button = createNewButton(buttonText);
         button.addEventListener("click", () => {
-          if (!isBackgroundRed) {
-            viewer.viewerFunction(value1);
-            button.textContent = newButtonText;
-            isBackgroundRed = true;
-          } else {
-            viewer.viewerFunction(value2);
+          if (!booleanValue) {
+            viewerFunction();
             button.textContent = buttonText;
-            isBackgroundRed = false;
+            booleanValue = true;
+          } else {
+            viewerFunction2();
+            button.textContent = newButtonText;
+            booleanValue = false;
           }
         });
       };
       createUIButtons(
         "Change Background Color To Red",
-        setBackgroundColor,
-        (0xff0000),
+        false,
+        setBackgroundRed,
+
         "Change Background Color to Grey",
-        (0, 0, 0, 210, 210, 210)
+        setBackgroundGrey
       );
-      // const createToggleColorButton = createNewButton(
-      //   "Change Background Color to Red"
-      // );
-      // let isBackgroundRed = false;
-      // createToggleColorButton.addEventListener("click", () => {
-      //   if (!isBackgroundRed) {
-      //     viewer.setBackgroundColor(0xff0000);
-      //     createToggleColorButton.textContent =
-      //       "Change Background Color to Grey";
-      //     isBackgroundRed = true;
+
+      createUIButtons(
+        "Select Body",
+        false,
+        viewerSelect,
+        "Clear Selection",
+        viewerClearSelection
+      );
+
+      // let selected = false;
+      // const createToggleSelectButton = createNewButton("Select Body");
+      // createToggleSelectButton.addEventListener("click", () => {
+      //   if (!selected) {
+      //     viewer.select([1]);
+      //     createToggleSelectButton.textContent = "Clear Selection";
+      //     selected = true;
       //   } else {
-      //     viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-      //     createToggleColorButton.textContent =
-      //       "Change Background Color to Red";
-      //     isBackgroundRed = false;
+      //     viewer.clearSelection([1]);
+      //     createToggleSelectButton.textContent = "Select Body";
+      //     selected = false;
       //   }
       // });
-
-      let selected = false;
-      const createToggleSelectButton = createNewButton("Select Body");
-      createToggleSelectButton.addEventListener("click", () => {
-        if (!selected) {
-          viewer.select([1]);
-          createToggleSelectButton.textContent = "Clear Selection";
-          selected = true;
-        } else {
-          viewer.clearSelection([1]);
-          createToggleSelectButton.textContent = "Select Body";
-          selected = false;
-        }
-      });
 
       //create ground shadow toggle button
       let shadowOn = false;
