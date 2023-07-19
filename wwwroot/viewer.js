@@ -41,39 +41,36 @@ export function initViewer(container) {
         return button;
       };
 
-      //create function that creates the new button in the DOM and adds the text as a parameter
-      //includes a boolean as a parameter for the toggle feature
-      //add a parameter to add the event listener
-      const setBackgroundRed = () => {
-        viewer.setBackgroundColor(0xff0000);
-      };
-
-      const setBackgroundGrey = () => {
-        viewer.setBackgroundColor(0, 0, 0, 210, 210, 210);
-      };
-
-      const viewerSelect = () => {
-        viewer.select([1]);
-      };
-      const viewerClearSelection = () => {
-        viewer.clearSelection([1]);
-      };
-
-      const setGroundShadow = () => {
-        viewer.setGroundShadow(true);
-      };
-      const turnGroundShadowOff = () => {
-        viewer.setGroundShadow(false);
-      };
-
-      const setGroundReflectionOn = () => {
-        viewer.setGroundReflection(true);
-      };
-      const setGroundReflectionOff = () => {
-        viewer.setGroundReflection(false);
-      };
+      const UIButtons = [
+        {
+          buttonText: "Change Background Color To Red",
+          viewerFunction1: () => viewer.setBackgroundColor(0xff0000),
+          viewerFunction2: () =>
+            viewer.setBackgroundColor(0, 0, 0, 210, 210, 210),
+          newButtonText: "Change Background Color To Grey",
+        },
+        {
+          buttonText: "Select Body",
+          viewerFunction1: () => viewer.select([1]),
+          viewerFunction2: () => viewer.clearSelection([1]),
+          newButtonText: "Clear Selection",
+        },
+        {
+          buttonText: "Turn Ground Shadow On",
+          viewerFunction1: () => viewer.setGroundShadow(true),
+          viewerFunction2: () => viewer.setGroundShadow(false),
+          newButtonText: "Turn Ground Shadow Off",
+        },
+        {
+          buttonText: "Turn Ground Reflection On",
+          viewerFunction1: () => viewer.setGroundReflection(true),
+          viewerFunction2: () => viewer.setGroundReflection(false),
+          newButtonText: "Turn Ground reflection Off",
+        },
+      ];
 
       let booleanValue = false;
+
       const createUIButtons = (
         buttonText,
         viewerFunction,
@@ -93,31 +90,18 @@ export function initViewer(container) {
           }
         });
       };
-      createUIButtons(
-        "Change Background Color To Red",
-        setBackgroundRed,
-        setBackgroundGrey,
-        "Change Background Color to Grey"
-      );
 
-      createUIButtons(
-        "Select Body",
-        viewerSelect,
-        viewerClearSelection,
-        "Clear Selection"
-      );
-      createUIButtons(
-        "Turn Ground Shadow On",
-        setGroundShadow,
-        turnGroundShadowOff,
-        "Turn Ground Shadow Off"
-      );
-      createUIButtons(
-        "Turn Ground Reflection On",
-        setGroundReflectionOn,
-        setGroundReflectionOff,
-        "Turn Ground Reflection Off"
-      );
+      const createAllButtons = UIButtons.map((button, id) => {
+        const newButton = createUIButtons(
+          button.buttonText,
+          button.viewerFunction1,
+          button.viewerFunction2,
+          button.newButtonText
+        );
+        return newButton;
+      });
+
+      createAllButtons();
 
       const buttons = [
         {
