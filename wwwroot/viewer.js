@@ -105,7 +105,7 @@ export function initViewer(container) {
         });
       };
 
-      const createAllButtons = UIButtons.map((button, id) => {
+      UIButtons.map((button, id) => {
         const newButton = createUIButtons(
           button.buttonText,
           button.viewerFunction1,
@@ -118,7 +118,7 @@ export function initViewer(container) {
       //dropdown menu Code
       const selectOptions = [
         {
-          text: " ",
+          text: "Select Color...",
           color: null,
         },
         {
@@ -173,26 +173,15 @@ export function initViewer(container) {
         });
       };
 
-      //create menu for Moleteado
-      const changeColorOfMoleteado = createDropdownMenu(
-        "Change Color of Moleteado"
-      );
+      //function to create entire menu
+      const createEntireDropdownMenu = (text, optionsMenu, dbId) => {
+        const dropdownMenu = createDropdownMenu(text);
+        createOptions(optionsMenu, dropdownMenu);
+        addEventListenerFunction(dropdownMenu, optionsMenu, dbId);
+      };
 
-      //create options for Moleteado
-      createOptions(selectOptions, changeColorOfMoleteado);
-
-      //add eventlistener to moleteado
-      addEventListenerFunction(changeColorOfMoleteado, selectOptions, 10);
-
-      //change color of middle part
-      const changeColorOfMiddlePart = createDropdownMenu(
-        "Change Color Of Middle Part"
-      );
-      //create options for Middle Part
-      createOptions(selectOptions, changeColorOfMiddlePart);
-
-      //add event listener to middle part
-      addEventListenerFunction(changeColorOfMiddlePart, selectOptions, 4);
+      createEntireDropdownMenu("Change Color of Moleteado", selectOptions, 10);
+      createEntireDropdownMenu("Change Color of Middle Part", selectOptions, 4);
     });
   });
 }
