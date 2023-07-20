@@ -42,8 +42,24 @@ export function initViewer(container) {
       };
 
       const UIButtons = [
+        /*
+           [
+            {
+              text: "Change Background Color To rRd",
+              action: () => viewer.setBackgroundcolor(0xf00)
+            },  
+            {
+              text: "Change Background Color To Grey",
+              action: () => viewer.setBackgroundcolor(0x888)
+            },
+           ]
+           when you hit a buttion, fire action and update the
+           tracking index to + 1 modulo the length of the array
+           Note: practice modulo
+          */
         {
           buttonText: "Change Background Color To Red",
+          //make an array of functions
           viewerFunction1: () => viewer.setBackgroundColor(0xff0000),
           viewerFunction2: () =>
             viewer.setBackgroundColor(0, 0, 0, 210, 210, 210),
@@ -83,30 +99,29 @@ export function initViewer(container) {
         },
       ];
 
-      let booleanValue = false;
-
-      const createUIButtons = (
+      const createUIButton = (
         buttonText,
         viewerFunction,
         viewerFunction2,
         newButtonText
       ) => {
+        let isInInitialState = false;
         const button = createNewButton(buttonText);
         button.addEventListener("click", () => {
-          if (!booleanValue) {
+          if (!isInInitialState) {
             viewerFunction();
             button.textContent = newButtonText;
-            booleanValue = true;
+            isInInitialState = true;
           } else {
             viewerFunction2();
             button.textContent = buttonText;
-            booleanValue = false;
+            isInInitialState = false;
           }
         });
       };
 
       UIButtons.map((button, id) => {
-        const newButton = createUIButtons(
+        const newButton = createUIButton(
           button.buttonText,
           button.viewerFunction1,
           button.viewerFunction2,
@@ -115,8 +130,10 @@ export function initViewer(container) {
         return newButton;
       });
 
-      //dropdown menu Code
-      const selectOptions = [
+      const MOLETEADO_DBID = 10;
+      const MIDDLE_PART_DBID = 4;
+      // dropdown menu Code
+      const selectColorOptions = [
         {
           text: "Select Color...",
           color: null,
@@ -152,8 +169,8 @@ export function initViewer(container) {
       };
 
       //function to create options in dropdown menu
-      const createOptions = (optionObject, dropdownMenu) => {
-        optionObject.map((option, idx) => {
+      const addOptionsToMenu = (options, dropdownMenu) => {
+        options.map((option, idx) => {
           const newOption = document.createElement("option");
           newOption.innerHTML = option.text;
           dropdownMenu.appendChild(newOption);
@@ -161,7 +178,7 @@ export function initViewer(container) {
       };
 
       //addEventListener function
-      const addEventListenerFunction = (dropDownMenu, optionMenu, dbId) => {
+      const addEventListenerToMenu = (dropDownMenu, optionMenu, dbId) => {
         dropDownMenu.addEventListener("change", () => {
           const selectedColor = dropDownMenu.value;
           const colorObject = optionMenu.find((color) => {
@@ -174,14 +191,22 @@ export function initViewer(container) {
       };
 
       //function to create entire menu
-      const createEntireDropdownMenu = (text, optionsMenu, dbId) => {
-        const dropdownMenu = createDropdownMenu(text);
-        createOptions(optionsMenu, dropdownMenu);
-        addEventListenerFunction(dropdownMenu, optionsMenu, dbId);
+      const createEntireDropdownMenu = (label, optionsMenu, dbId) => {
+        const dropdownMenu = createDropdownMenu(label);
+        addOptionsToMenu(optionsMenu, dropdownMenu);
+        addEventListenerToMenu(dropdownMenu, optionsMenu, dbId);
       };
 
-      createEntireDropdownMenu("Change Color of Moleteado", selectOptions, 10);
-      createEntireDropdownMenu("Change Color of Middle Part", selectOptions, 4);
+      createEntireDropdownMenu(
+        "Change Color of Moleteado",
+        selectColorOptions,
+        MOLETEADO_DBID
+      );
+      createEntireDropdownMenu(
+        "Change Color of Middle Part",
+        selectColorOptions,
+        MIDDLE_PART_DBID
+      );
     });
   });
 }
