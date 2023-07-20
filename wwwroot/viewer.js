@@ -62,10 +62,24 @@ export function initViewer(container) {
           newButtonText: "Turn Ground Shadow Off",
         },
         {
+          buttonText: "Set Ground Shadow To Red",
+          viewerFunction1: () =>
+            viewer.setGroundShadowColor(new THREE.Color(0xff0000)),
+          viewerFunction2: () =>
+            viewer.setGroundShadowColor(
+              new THREE.Color(0, 0, 0, 210, 210, 210)
+            ),
+          newButtonText: "Remove Red Ground Shadow",
+        },
+        {
           buttonText: "Turn Ground Reflection On",
           viewerFunction1: () => viewer.setGroundReflection(true),
           viewerFunction2: () => viewer.setGroundReflection(false),
           newButtonText: "Turn Ground reflection Off",
+        },
+        {
+          buttonText: "Reset Window",
+          viewerFunction1: () => location.reload(),
         },
       ];
 
@@ -99,37 +113,6 @@ export function initViewer(container) {
           button.newButtonText
         );
         return newButton;
-      });
-
-      createAllButtons();
-
-      const buttons = [
-        {
-          buttonName: "Set Ground Shadow Color to Red",
-          buttonFunction: () => {
-            viewer.setGroundShadowColor(new THREE.Color(0xff0000));
-          },
-        },
-
-        {
-          buttonName: "Reset Window",
-          buttonFunction: () => {
-            location.reload();
-          },
-        },
-      ];
-
-      //claw wrench buttons
-
-      const createButtons = buttons.map((button, idx) => {
-        const createButton = document.createElement("button");
-        createButton.className = "item";
-        const text = document.createTextNode(button.buttonName);
-        createButton.appendChild(text);
-        parameters.appendChild(createButton);
-        colorMenu.insertAdjacentElement("beforebegin", createButton);
-        createButton.addEventListener("click", button.buttonFunction);
-        return createButton;
       });
 
       //dropdown menu Code
