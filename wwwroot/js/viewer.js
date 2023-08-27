@@ -40,23 +40,21 @@ export function initViewer(container) {
         colorMenu.insertAdjacentElement("beforebegin", button);
         return button;
       };
+      //create input value
+      const createInputValue = (type, id, value) => {
+        const input = document.createElement("input");
+        input.className = "inputClass";
+        parameters.appendChild(input);
+        input.type = type;
+        input.id = id;
+        input.value = value;
+        console.log(input);
+        return input;
+      };
+
+      const searchValue = createInputValue("search", "filter", "");
 
       const UIButtons = [
-        /*
-           [
-            {
-              text: "Change Background Color To rRd",
-              action: () => viewer.setBackgroundcolor(0xf00)
-            },  
-            {
-              text: "Change Background Color To Grey",
-              action: () => viewer.setBackgroundcolor(0x888)
-            },
-           ]
-           when you hit a buttion, fire action and update the
-           tracking index to + 1 modulo the length of the array
-           Note: practice modulo
-          */
         {
           buttonText: "Change Background Color To Red",
           //make an array of functions
@@ -70,6 +68,19 @@ export function initViewer(container) {
           viewerFunction1: () => viewer.select([1]),
           viewerFunction2: () => viewer.clearSelection([1]),
           newButtonText: "Clear Selection",
+        },
+        {
+          buttonText: "Display Selected Object Ids",
+          viewerFunction1: () => {
+            //getSelection() displays the selected object Ids
+            const dbIds = viewer.getSelection();
+            alert("You have selected objects with IDs " + dbIds);
+          },
+          viewerFunction2: () => {
+            const dbIds = viewer.getSelection();
+            alert("You have selected objects with IDs " + dbIds);
+          },
+          newButtonText: "Display Selected Object Ids",
         },
         {
           buttonText: "Turn Ground Shadow On",
@@ -88,6 +99,12 @@ export function initViewer(container) {
           newButtonText: "Remove Red Ground Shadow",
         },
         {
+          buttonText: "Update Parameters",
+          viewerFunction1: () => console.log("updating parameters"),
+          viewerFunction2: () => console.log("Changing Parameters Back"),
+          newButtonText: "Change Parameters Back",
+        },
+        {
           buttonText: "Turn Ground Reflection On",
           viewerFunction1: () => viewer.setGroundReflection(true),
           viewerFunction2: () => viewer.setGroundReflection(false),
@@ -97,11 +114,42 @@ export function initViewer(container) {
           buttonText: "Reset Window",
           viewerFunction1: () => location.reload(),
         },
+        {
+          buttonText: "Explode",
+          viewerFunction1: () => {
+            if (viewer.getExplodeScale() > 0.0) {
+              viewer.explode(0.0);
+            } else {
+              viewer.explode(0.5);
+            }
+          },
+          viewerFunction2: () => {
+            if (viewer.getExplodeScale() > 0.0) {
+              viewer.explode(0.0);
+            } else {
+              viewer.explode(0.5);
+            }
+          },
+          newButtonText: "Reset",
+        },
+        {
+          buttonText: "Search",
+          viewerFunction1: () => {
+            viewer.search(searchValue.value, (dbIds) => {
+              viewer.isolate(dbIds);
+              viewer.fitToView(dbIds);
+            });
+          },
+          viewerFunction2: () => {
+            location.reload();
+          },
+          newButtonText: "Reset",
+        },
       ];
 
       const createUIButton = (
         buttonText,
-        viewerFunction,
+        viewerFunction1,
         viewerFunction2,
         newButtonText
       ) => {
@@ -109,7 +157,7 @@ export function initViewer(container) {
         const button = createNewButton(buttonText);
         button.addEventListener("click", () => {
           if (!isInInitialState) {
-            viewerFunction();
+            viewerFunction1();
             button.textContent = newButtonText;
             isInInitialState = true;
           } else {
@@ -120,7 +168,7 @@ export function initViewer(container) {
         });
       };
 
-      UIButtons.map((button, id) => {
+      UIButtons.map((button) => {
         const newButton = createUIButton(
           button.buttonText,
           button.viewerFunction1,
@@ -207,6 +255,18 @@ export function initViewer(container) {
         selectColorOptions,
         MIDDLE_PART_DBID
       );
+
+      const applyTransform = (model, dbId, translation, rotation, scale) => {
+        const tree = model.getInstanceTree();
+        const frags = model.getFragmentList();
+        tree.enumNodeFragments(
+          dbId,
+          () => {
+            frags.updateAnimTransform(fragId, scale, rotation, translation);
+          },
+          true
+        );
+      };
     });
   });
 }
