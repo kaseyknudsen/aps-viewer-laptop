@@ -145,6 +145,22 @@ export function initViewer(container) {
           },
           newButtonText: "Reset",
         },
+        {
+          buttonText: "Show all IDs",
+          viewerFunction1: () => {
+            const instanceTree = viewer.model.getData().instanceTree;
+            const allDbs = Object.keys(instanceTree.nodeAccess.dbIdToIndex);
+            alert(
+              allDbs.map((id) => {
+                return parseInt(id);
+              })
+            );
+          },
+          viewerFunction2: () => {
+            location.reload();
+          },
+          newButtonText: "Clear",
+        },
       ];
 
       const createUIButton = (
