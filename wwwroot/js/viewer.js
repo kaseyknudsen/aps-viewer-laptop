@@ -148,6 +148,7 @@ export function initViewer(container) {
         {
           buttonText: "Show all IDs",
           viewerFunction1: () => {
+            const data = viewer.model.getData().instanceTree;
             const instanceTree = viewer.model.getData().instanceTree;
             const allDbs = Object.keys(instanceTree.nodeAccess.dbIdToIndex);
             alert(
