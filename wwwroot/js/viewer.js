@@ -73,11 +73,31 @@ export function initViewer(container) {
         "Enter New Height"
       );
 
-      updateParamsButton.addEventListener("click", () => {
-        console.log(`height: ${heightInputValue.value}`);
-        console.log(`width: ${widthInputValue.value}`);
-        let heightValue = heightInputValue.value;
-        let widthValue = widthInputValue.value;
+      updateParamsButton.addEventListener("click", async () => {
+        let params = {
+          heightValue: heightInputValue.value,
+          widthValue: widthInputValue.value,
+        };
+        console.log(params);
+        try {
+          let response = await fetch("/updateParameters", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(params),
+          });
+
+          let result = await response.json();
+          if (result.success) {
+            console.log("success");
+            location.reload();
+          } else {
+            console.log("error");
+          }
+        } catch (error) {
+          console.log("error updating parameters");
+        }
       });
 
       const UIButtons = [
