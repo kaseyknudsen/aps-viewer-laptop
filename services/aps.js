@@ -35,6 +35,7 @@ service.getPublicToken = async () => {
   return publicAuthClient.getCredentials();
 };
 
+//Oject Storage Service logic
 service.ensureBucketExists = async (bucketKey) => {
   try {
     await new APS.BucketsApi().getBucketDetails(

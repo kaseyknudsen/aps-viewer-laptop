@@ -98,6 +98,7 @@ export function initViewer(container) {
             ),
           newButtonText: "Remove Red Ground Shadow",
         },
+        //need to figure out how to get this function to talk to the server
         {
           buttonText: "Update Parameters",
           viewerFunction1: () => console.log("updating parameters"),
