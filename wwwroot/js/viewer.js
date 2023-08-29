@@ -41,128 +41,154 @@ export function initViewer(container) {
         return button;
       };
       //create input value
-      const createInputValue = (type, id, value) => {
+      const createInputValue = (type, id, value, placeholder) => {
         const input = document.createElement("input");
         input.className = "inputClass";
         parameters.appendChild(input);
         input.type = type;
         input.id = id;
+        input.placeholder = placeholder || "";
         input.value = value;
         console.log(input);
         return input;
       };
 
-      const searchValue = createInputValue("search", "filter", "");
+      // const searchValue = createInputValue("search", "filter", "");
+
+      //change parameters code
+
+      const updateParamsButton = createNewButton("Update Params");
+
+      const widthInputValue = createInputValue(
+        "input",
+        "changeParams",
+        "",
+        "Enter New Width"
+      );
+
+      const heightInputValue = createInputValue(
+        "input",
+        "changeParams",
+        "",
+        "Enter New Height"
+      );
+
+      updateParamsButton.addEventListener("click", () => {
+        console.log(`height: ${heightInputValue.value}`);
+        console.log(`width: ${widthInputValue.value}`);
+        let heightValue = heightInputValue.value;
+        let widthValue = widthInputValue.value;
+      });
 
       const UIButtons = [
-        {
-          buttonText: "Change Background Color To Red",
-          //make an array of functions
-          viewerFunction1: () => viewer.setBackgroundColor(0xff0000),
-          viewerFunction2: () =>
-            viewer.setBackgroundColor(0, 0, 0, 210, 210, 210),
-          newButtonText: "Change Background Color To Grey",
-        },
-        {
-          buttonText: "Select Body",
-          viewerFunction1: () => viewer.select([1]),
-          viewerFunction2: () => viewer.clearSelection([1]),
-          newButtonText: "Clear Selection",
-        },
-        {
-          buttonText: "Display Selected Object Ids",
-          viewerFunction1: () => {
-            //getSelection() displays the selected object Ids
-            const dbIds = viewer.getSelection();
-            alert("You have selected objects with IDs " + dbIds);
-          },
-          viewerFunction2: () => {
-            const dbIds = viewer.getSelection();
-            alert("You have selected objects with IDs " + dbIds);
-          },
-          newButtonText: "Display Selected Object Ids",
-        },
-        {
-          buttonText: "Turn Ground Shadow On",
-          viewerFunction1: () => viewer.setGroundShadow(true),
-          viewerFunction2: () => viewer.setGroundShadow(false),
-          newButtonText: "Turn Ground Shadow Off",
-        },
-        {
-          buttonText: "Set Ground Shadow To Red",
-          viewerFunction1: () =>
-            viewer.setGroundShadowColor(new THREE.Color(0xff0000)),
-          viewerFunction2: () =>
-            viewer.setGroundShadowColor(
-              new THREE.Color(0, 0, 0, 210, 210, 210)
-            ),
-          newButtonText: "Remove Red Ground Shadow",
-        },
+        // {
+        //   buttonText: "Change Background Color To Red",
+        //   //make an array of functions
+        //   viewerFunction1: () => viewer.setBackgroundColor(0xff0000),
+        //   viewerFunction2: () =>
+        //     viewer.setBackgroundColor(0, 0, 0, 210, 210, 210),
+        //   newButtonText: "Change Background Color To Grey",
+        // },
+        // {
+        //   buttonText: "Select Body",
+        //   viewerFunction1: () => viewer.select([1]),
+        //   viewerFunction2: () => viewer.clearSelection([1]),
+        //   newButtonText: "Clear Selection",
+        // },
+        // {
+        //   buttonText: "Display Selected Object Ids",
+        //   viewerFunction1: () => {
+        //     //getSelection() displays the selected object Ids
+        //     const dbIds = viewer.getSelection();
+        //     alert("You have selected objects with IDs " + dbIds);
+        //   },
+        //   viewerFunction2: () => {
+        //     const dbIds = viewer.getSelection();
+        //     alert("You have selected objects with IDs " + dbIds);
+        //   },
+        //   newButtonText: "Display Selected Object Ids",
+        // },
+        // {
+        //   buttonText: "Turn Ground Shadow On",
+        //   viewerFunction1: () => viewer.setGroundShadow(true),
+        //   viewerFunction2: () => viewer.setGroundShadow(false),
+        //   newButtonText: "Turn Ground Shadow Off",
+        // },
+        // {
+        //   buttonText: "Set Ground Shadow To Red",
+        //   viewerFunction1: () =>
+        //     viewer.setGroundShadowColor(new THREE.Color(0xff0000)),
+        //   viewerFunction2: () =>
+        //     viewer.setGroundShadowColor(
+        //       new THREE.Color(0, 0, 0, 210, 210, 210)
+        //     ),
+        //   newButtonText: "Remove Red Ground Shadow",
+        // },
         //need to figure out how to get this function to talk to the server
-        {
-          buttonText: "Update Parameters",
-          viewerFunction1: () => console.log("updating parameters"),
-          viewerFunction2: () => console.log("Changing Parameters Back"),
-          newButtonText: "Change Parameters Back",
-        },
-        {
-          buttonText: "Turn Ground Reflection On",
-          viewerFunction1: () => viewer.setGroundReflection(true),
-          viewerFunction2: () => viewer.setGroundReflection(false),
-          newButtonText: "Turn Ground reflection Off",
-        },
-        {
-          buttonText: "Reset Window",
-          viewerFunction1: () => location.reload(),
-        },
-        {
-          buttonText: "Explode",
-          viewerFunction1: () => {
-            if (viewer.getExplodeScale() > 0.0) {
-              viewer.explode(0.0);
-            } else {
-              viewer.explode(0.5);
-            }
-          },
-          viewerFunction2: () => {
-            if (viewer.getExplodeScale() > 0.0) {
-              viewer.explode(0.0);
-            } else {
-              viewer.explode(0.5);
-            }
-          },
-          newButtonText: "Reset",
-        },
-        {
-          buttonText: "Search",
-          viewerFunction1: () => {
-            viewer.search(searchValue.value, (dbIds) => {
-              viewer.isolate(dbIds);
-              viewer.fitToView(dbIds);
-            });
-          },
-          viewerFunction2: () => {
-            location.reload();
-          },
-          newButtonText: "Reset",
-        },
-        {
-          buttonText: "Show all IDs",
-          viewerFunction1: () => {
-            const data = viewer.model.getData().instanceTree;
-            const instanceTree = viewer.model.getData().instanceTree;
-            const allDbs = Object.keys(instanceTree.nodeAccess.dbIdToIndex);
-            alert(
-              allDbs.map((id) => {
-                return parseInt(id);
-              })
-            );
-          },
-          viewerFunction2: () => {
-            location.reload();
-          },
-          newButtonText: "Clear",
-        },
+        // {
+        //   buttonText: "Update Parameters",
+        //   viewerFunction1: () => console.log("updating parameters"),
+        //   viewerFunction2: () => console.log("Changing Parameters Back"),
+        //   newButtonText: "Change Parameters Back",
+        // },
+        // {
+        //   buttonText: "Turn Ground Reflection On",
+        //   viewerFunction1: () => viewer.setGroundReflection(true),
+        //   viewerFunction2: () => viewer.setGroundReflection(false),
+        //   newButtonText: "Turn Ground reflection Off",
+        // },
+        // {
+        //   buttonText: "Reset Window",
+        //   viewerFunction1: () => location.reload(),
+        // },
+        // {
+        //   buttonText: "Explode",
+        //   viewerFunction1: () => {
+        //     if (viewer.getExplodeScale() > 0.0) {
+        //       viewer.explode(0.0);
+        //     } else {
+        //       viewer.explode(0.5);
+        //     }
+        //   },
+        //   viewerFunction2: () => {
+        //     if (viewer.getExplodeScale() > 0.0) {
+        //       viewer.explode(0.0);
+        //     } else {
+        //       viewer.explode(0.5);
+        //     }
+        //   },
+        //   newButtonText: "Reset",
+        // },
+        // {
+        //   buttonText: "Search",
+        //   viewerFunction1: () => {
+        //     viewer.search(searchValue.value, (dbIds) => {
+        //       viewer.isolate(dbIds);
+        //       viewer.fitToView(dbIds);
+        //     });
+        //   },
+        //   viewerFunction2: () => {
+        //     location.reload();
+        //   },
+        //   newButtonText: "Reset",
+        // },
+        // {
+        //   buttonText: "Show all IDs",
+        //   viewerFunction1: () => {
+        //     const data = viewer.model.getData().instanceTree;
+        //     const instanceTree = viewer.model.getData().instanceTree;
+        //     const allDbs = Object.keys(instanceTree.nodeAccess.dbIdToIndex);
+        //     alert(
+        //       allDbs.map((id) => {
+        //         return parseInt(id);
+        //       })
+        //     );
+        //   },
+        //   viewerFunction2: () => {
+        //     location.reload();
+        //   },
+        //   newButtonText: "Clear",
+        // },
       ];
 
       const createUIButton = (
@@ -196,52 +222,52 @@ export function initViewer(container) {
         return newButton;
       });
 
-      const MOLETEADO_DBID = 10;
-      const MIDDLE_PART_DBID = 4;
-      // dropdown menu Code
-      const selectColorOptions = [
-        {
-          text: "Select Color...",
-          color: null,
-        },
-        {
-          text: "Grey",
-          color: new THREE.Vector4(0.5, 0.5, 0.5, 1),
-        },
-        {
-          text: "Dark Red",
-          color: new THREE.Vector4(1, 0, 0, 0.3),
-        },
-        {
-          text: "Silver",
-          color: new THREE.Vector4(1, 1, 1, 1),
-        },
-        {
-          text: "Yellow",
-          color: new THREE.Vector4(128, 128, 0, 1),
-        },
-      ];
+      // const MOLETEADO_DBID = 10;
+      // const MIDDLE_PART_DBID = 4;
+      // // dropdown menu Code
+      // const selectColorOptions = [
+      //   {
+      //     text: "Select Color...",
+      //     color: null,
+      //   },
+      //   {
+      //     text: "Grey",
+      //     color: new THREE.Vector4(0.5, 0.5, 0.5, 1),
+      //   },
+      //   {
+      //     text: "Dark Red",
+      //     color: new THREE.Vector4(1, 0, 0, 0.3),
+      //   },
+      //   {
+      //     text: "Silver",
+      //     color: new THREE.Vector4(1, 1, 1, 1),
+      //   },
+      //   {
+      //     text: "Yellow",
+      //     color: new THREE.Vector4(128, 128, 0, 1),
+      //   },
+      // ];
 
-      //function to create dropdown
-      const createDropdownMenu = (text) => {
-        const newDropdown = document.createElement("select");
-        newDropdown.className = "dropdown";
-        const label = document.createElement("label");
-        label.className = "label";
-        label.textContent = text;
-        parameters.appendChild(label);
-        parameters.appendChild(newDropdown);
-        return newDropdown;
-      };
+      // //function to create dropdown
+      // const createDropdownMenu = (text) => {
+      //   const newDropdown = document.createElement("select");
+      //   newDropdown.className = "dropdown";
+      //   const label = document.createElement("label");
+      //   label.className = "label";
+      //   label.textContent = text;
+      //   parameters.appendChild(label);
+      //   parameters.appendChild(newDropdown);
+      //   return newDropdown;
+      // };
 
-      //function to create options in dropdown menu
-      const addOptionsToMenu = (options, dropdownMenu) => {
-        options.map((option, idx) => {
-          const newOption = document.createElement("option");
-          newOption.innerHTML = option.text;
-          dropdownMenu.appendChild(newOption);
-        });
-      };
+      // //function to create options in dropdown menu
+      // const addOptionsToMenu = (options, dropdownMenu) => {
+      //   options.map((option, idx) => {
+      //     const newOption = document.createElement("option");
+      //     newOption.innerHTML = option.text;
+      //     dropdownMenu.appendChild(newOption);
+      //   });
+      // };
 
       //addEventListener function
       const addEventListenerToMenu = (dropDownMenu, optionMenu, dbId) => {
