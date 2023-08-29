@@ -73,10 +73,6 @@ router.post("/api/models", formidable(), async function (req, res, next) {
   }
 });
 
-router.get("/updateParameters", (req, res) => {
-  console.log("updateParameters endpoint was hit!");
 
-  res.send("Endpoint was accessed!");
-});
 
 module.exports = router;
